@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_authentication/providers/auth_provider.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 class OTPScreen extends StatefulWidget {
   @override
@@ -20,11 +18,9 @@ class _OTPScreenState extends State<OTPScreen> {
   int seconds = 30;
   late TextEditingController otpTextController;
   late Timer timer;
-  String code = '123456';
 
   @override
   void initState() {
-    listenOTP();
     otpTextController = TextEditingController();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (seconds > 0) {
@@ -44,7 +40,6 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void dispose() {
     timer.cancel();
-    SmsAutoFill().unregisterListener();
     super.dispose();
   }
 
@@ -80,7 +75,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: double.infinity,
                 ),
                 Text(
-                  'An five digit has been code sent to ${phoneNumber}',
+                  'An five digit has been code sent to $phoneNumber',
                   style: const TextStyle(fontSize: 14),
                 ),
                 Row(
@@ -201,64 +196,48 @@ class _OTPScreenState extends State<OTPScreen> {
                   ),
                 ),
                 Visibility(
-                    visible: hasFilledOTP,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text("Don't received any code?"),
-                          TextButton(
-                              onPressed: !timer.isActive
-                                  ? () async {
-                                      //Resend Code
-                                      await Provider.of<AuthProvider>(context,
-                                              listen: false)
-                                          .verifyPhone(
-                                              phoneNumber ?? '0', context);
-                                      setState(() {
-                                        setTimer();
-                                      });
-                                    }
-                                  : null,
-                              style: TextButton.styleFrom(
-                                  primary: Colors.black,
-                                  splashFactory: NoSplash.splashFactory),
-                              child: timer.isActive
-                                  ? Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Resend OTP in ${seconds}s',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    )
-                                  : const Text(
-                                      'Re-send Code',
-                                      style:
-                                          TextStyle(color: Color(0xFFBFFB62)),
-                                    )),
-                        ],
-                      ),
-                    )),
-                StreamBuilder(
-                  stream: SmsAutoFill().code,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        code = snapshot.data as String;
-                        print(code);
-                        setState(() {
-                          otpTextController.text = code;
-                        });
-                      }
-                    }
-                    return Text(code);
-                  },
+                  visible: hasFilledOTP,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text("Don't received any code?"),
+                        TextButton(
+                            onPressed: !timer.isActive
+                                ? () async {
+                                    //Resend Code
+                                    await Provider.of<AuthProvider>(context,
+                                            listen: false)
+                                        .verifyPhone(
+                                            phoneNumber ?? '0', context);
+                                    setState(() {
+                                      setTimer();
+                                    });
+                                  }
+                                : null,
+                            style: TextButton.styleFrom(
+                                primary: Colors.black,
+                                splashFactory: NoSplash.splashFactory),
+                            child: timer.isActive
+                                ? Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Resend OTP in ${seconds}s',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )
+                                : const Text(
+                                    'Re-send Code',
+                                    style: TextStyle(color: Color(0xFFBFFB62)),
+                                  )),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -293,11 +272,5 @@ class _OTPScreenState extends State<OTPScreen> {
       duration: const Duration(seconds: 1),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void listenOTP() async {
-    print('listening....');
-    await SmsAutoFill().getAppSignature;
-    await SmsAutoFill().listenForCode();
   }
 }

@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "155654332428",
-    "project_id": "otpauthenticationflutter",
-    "storage_bucket": "otpauthenticationflutter.appspot.com"
+    "project_number": "121498167200",
+    "project_id": "otpauth-f5311",
+    "storage_bucket": "otpauth-f5311.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:155654332428:android:262d8b036ab36f02540e29",
+        "mobilesdk_app_id": "1:121498167200:android:ab0fe7414d529ac6d326c5",
         "android_client_info": {
           "package_name": "com.example.otp_authentication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "155654332428-8cbq6kguvbo7a5rbqe9ranro61t17bvu.apps.googleusercontent.com",
+          "client_id": "121498167200-026bojke0hevfasqat55gj9aqf9vkcif.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.otp_authentication",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "155654332428-1cd4cjmeg6ci0n4p3c3aq9kbh76v0e04.apps.googleusercontent.com",
+          "client_id": "121498167200-c3v7ov3v36f9kmjjrbh1evfjqhn0b2i6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuHKr6diFsGN1N5PzU6_D4SG5_KCxsd2A"
+          "current_key": "AIzaSyAVxCMFFLRiGi5EwV83kx1J5FdMRj-mgXw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "155654332428-1cd4cjmeg6ci0n4p3c3aq9kbh76v0e04.apps.googleusercontent.com",
+              "client_id": "121498167200-c3v7ov3v36f9kmjjrbh1evfjqhn0b2i6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
